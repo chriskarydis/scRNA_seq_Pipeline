@@ -1,0 +1,72 @@
+
+\documentclass[hidelinks, a4paper, 12pt]{report}
+\usepackage{tocbibind}
+\usepackage{fancyhdr}
+\setlength{\headheight}{15pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\thepage}
+\usepackage[top=1.5cm, bottom=2cm]{geometry}
+\setlength{\tolerance}{1}
+\setlength{\emergencystretch}{\maxdimen}
+\setlength{\hyphenpenalty}{10000}
+\setlength{\hbadness}{10000}
+
+\usepackage[unicode]{hyperref}
+\usepackage[LGR, T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, greek]{babel}
+\usepackage{alphabeta}
+\usepackage{csquotes}
+\usepackage{dirtytalk}
+
+\usepackage[backend=biber, style=numeric, natbib=true, sorting=none]{biblatex}
+\addbibresource{bibliography.bib}
+
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{1em}
+
+\title{Διαδραστικό \foreignlanguage{english}{Pipeline} Ανάλυσης σε δεδομένα Μοριακής Βιολογίας}
+\author{Χρήστος Σπυρίδων Καρύδης - \foreignlanguage{english}{inf2022076}\\ Ευαγγελία Φώτη - \foreignlanguage{english}{inf2022224}\\ Ευτυχία Φίλιου - Π2019202}
+
+\begin{document}
+
+\input{title/title.tex}
+
+\selectlanguage{greek}
+\renewcommand{\contentsname}{Περιεχόμενα}
+\renewcommand{\listfigurename}{Λίστα Σχημάτων}
+\renewcommand{\listtablename}{Λίστα Πινάκων}
+\renewcommand{\chaptername}{Κεφάλαιο}
+\renewcommand{\appendixname}{Παράρτημα}
+\renewcommand{\bibname}{Βιβλιογραφία}
+
+\pagenumbering{roman}
+\setlength{\parskip}{0.5em}
+\tableofcontents
+\newpage
+
+\pagenumbering{arabic}
+\setlength{\parskip}{1em}
+
+\include{chapters/abstract}
+\include{chapters/introduction}
+\include{chapters/design}
+\include{chapters/uml}
+\include{chapters/implementation}
+\include{chapters/results}
+\include{chapters/dockerization}
+\include{chapters/github}
+
+\appendix
+% \include{appendix/appendixA}
+
+\printbibliography[heading=bibintoc]
+
+\end{document}
