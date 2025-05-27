@@ -1,0 +1,53 @@
+\chapter{\foreignlanguage{english}{Dockerization} της Εφαρμογής}
+
+Η εφαρμογή έχει υλοποιηθεί ώστε να τρέχει πλήρως απομονωμένα μέσω \foreignlanguage{english}{Docker}, διευκολύνοντας την εγκατάσταση και εκτέλεση σε οποιοδήποτε περιβάλλον.
+
+\section*{Αρχείο \foreignlanguage{english}{Dockerfile}}
+
+Το \foreignlanguage{english}{Dockerfile} βασίζεται στην επίσημη εικόνα \foreignlanguage{english}{\texttt{python:3.11-slim}} και περιλαμβάνει:
+
+\begin{itemize}
+  \item Εγκατάσταση εξαρτήσεων από το αρχείο \foreignlanguage{english}{\texttt{requirements.txt}}
+  \item Αντιγραφή όλων των απαραίτητων αρχείων στον \foreignlanguage{english}{container}
+  \item Ορισμός \foreignlanguage{english}{entrypoint} με την εντολή: \foreignlanguage{english}{\texttt{CMD ["streamlit", "run", "main.py"]}}
+\end{itemize}
+
+\section*{Αρχείο \foreignlanguage{english}{requirements.txt}}
+
+Το αρχείο \foreignlanguage{english}{\texttt{requirements.txt}} περιλαμβάνει όλες τις βιβλιοθήκες που απαιτούνται για την εκτέλεση της εφαρμογής. Ενδεικτικά:
+
+\begin{itemize}
+  \item \foreignlanguage{english}{streamlit, scanpy, anndata, matplotlib, numpy, pandas}
+  \item \foreignlanguage{english}{scipy, plotly, seaborn, harmonypy}
+  \item \foreignlanguage{english}{python-igraph, leidenalg, openpyxl, xlsxwriter}
+\end{itemize}
+
+\newpage
+
+\section*{Εντολές Εκτέλεσης}
+
+Η δημιουργία και εκτέλεση του \foreignlanguage{english}{Docker container} γίνεται με:
+
+\begin{center}
+\begin{alltt}
+\selectlanguage{english}
+docker build -t scrna-app .
+
+docker run -p 8501:8501 scrna-app
+\selectlanguage{greek}
+\end{alltt}
+\end{center}
+
+Αυτό καθιστά την εφαρμογή διαθέσιμη στη διεύθυνση: \foreignlanguage{english}{\texttt{http://localhost:8501}}
+
+\section*{Αρχείο \foreignlanguage{english}{.dockerignore}}
+
+Το αρχείο \foreignlanguage{english}{\texttt{.dockerignore}} περιλαμβάνει τα εξής:
+
+\begin{itemize}
+  \item \foreignlanguage{english}{\texttt{.git/}} – αποφυγή μεταφοράς \foreignlanguage{english}{git} ιστορικού
+  \item \foreignlanguage{english}{\texttt{.vscode/}} – ρυθμίσεις \foreignlanguage{english}{editor}
+  \item \foreignlanguage{english}{\texttt{\_\_pycache\_\_/}} – προερμηνευμένα αρχεία \foreignlanguage{english}{Python}
+\end{itemize}
+
+Με αυτόν τον τρόπο μειώνεται το μέγεθος του \foreignlanguage{english}{Docker image} και διασφαλίζεται καθαρό περιβάλλον εκτέλεσης.

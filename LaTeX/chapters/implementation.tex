@@ -1,0 +1,53 @@
+\chapter{Ανάλυση της Υλοποίησης με Τεχνικές Λεπτομέρειες}
+
+Η εφαρμογή έχει υλοποιηθεί σε \foreignlanguage{english}{Python} με χρήση των βιβλιοθηκών \foreignlanguage{english}{Streamlit, Scanpy, anndata, Plotly, Pandas, Matplotlib, NumPy, SciPy, seaborn} και \foreignlanguage{english}{HarmonyPy}. Όλη η ροή της εφαρμογής οργανώνεται στο αρχείο \foreignlanguage{english}{\texttt{main.py}}, το οποίο διαχωρίζει τη λειτουργικότητα σε έξι διαδραστικά \foreignlanguage{english}{tabs}.
+
+\section*{0. Ανέβασμα Αρχείου}
+Ο χρήστης μπορεί να φορτώσει ένα αρχείο τύπου \foreignlanguage{english}{\texttt{.h5ad}} μέσω του \foreignlanguage{english}{\texttt{file\_uploader}} του \foreignlanguage{english}{Streamlit}. Εφόσον το αρχείο φορτωθεί επιτυχώς, γίνεται άμεση ανάγνωση με τη συνάρτηση \foreignlanguage{english}{\texttt{scanpy.read\_h5ad()}} και το αντικείμενο \foreignlanguage{english}{AnnData} αποθηκεύεται σε \foreignlanguage{english}{\texttt{st.session\_state}}.
+
+Παράλληλα εμφανίζεται συνοπτική προεπισκόπηση μετρικών (αρ. κυττάρων, αρ. γονιδίων), ενώ ο χρήστης έχει δυνατότητα να περιηγηθεί στις εγγραφές του \foreignlanguage{english}{\texttt{adata.obs}} και \foreignlanguage{english}{\texttt{adata.var}} ανά σελίδες.
+
+
+\section*{1. Προεπεξεργασία}
+Περιλαμβάνει τον καθαρισμό των δεδομένων και τις παρακάτω λειτουργίες:
+\begin{itemize}
+  \item \foreignlanguage{english}{\texttt{filter\_cells}, \texttt{filter\_genes}} για φιλτράρισμα βάση τιμής που δίνεται από τον χρήστη.
+  \item Αφαίρεση γονιδίων \foreignlanguage{english}{\texttt{MT-}}, \foreignlanguage{english}{\texttt{ERCC}} με χρήση προθέματος.
+  \item Κανονικοποίηση με \foreignlanguage{english}{\texttt{normalize\_total}} και μετασχηματισμός \foreignlanguage{english}{\texttt{log1p}}.
+  \item Επιλογή γονιδίων υψηλής διακύμανσης με \foreignlanguage{english}{\texttt{highly\_variable\_genes}}.
+  \item Κανονικοποίηση τιμών μέσω \foreignlanguage{english}{\texttt{scale}}.
+\end{itemize}
+
+\section*{2. \foreignlanguage{english}{PCA, Clustering, UMAP, Harmony}}
+Ανάλυση κύριων συνιστωσών \foreignlanguage{english}{(clusters)}  και ομαδοποίηση:
+\begin{itemize}
+  \item Υπολογισμός \foreignlanguage{english}{\texttt{PCA}} με δυνατότητα επιλογής αριθμού συνιστωσών \foreignlanguage{english}{(clusters)}.
+  \item Δημιουργία γράφου γειτνίασης και \foreignlanguage{english}{clustering} με τον αλγόριθμο \foreignlanguage{english}{Leiden}.
+  \item Χρήση \foreignlanguage{english}{UMAP} για \foreignlanguage{english}{2D ή 3D} προβολή.
+  \item Προαιρετικά: διόρθωση \foreignlanguage{english}{batch effect} με \foreignlanguage{english}{\texttt{harmony\_integrate}} από το \foreignlanguage{english}{scanpy.external}.
+\end{itemize}
+
+\section*{3. \foreignlanguage{english}{Marker Genes}}
+Ανίχνευση γονιδίων που διαφοροποιούν τα \foreignlanguage{english}{clusters}:
+\begin{itemize}
+  \item Μέθοδοι: \foreignlanguage{english}{\texttt{logreg}}, \foreignlanguage{english}{\texttt{wilcoxon}}, \foreignlanguage{english}{\texttt{t-test}} μέσω \foreignlanguage{english}{\texttt{rank\_genes\_groups}}.
+  \item Οπτικοποιήσεις με \foreignlanguage{english}{dotplot}, \foreignlanguage{english}{heatmap} και \foreignlanguage{english}{violin}.
+\end{itemize}
+
+\section*{4. \foreignlanguage{english}{DEG (Differential Expression)}}
+Ανάλυση μεταξύ δύο ομάδων:
+\begin{itemize}
+  \item Επιλογή ομάδας ενδιαφέροντος και ομάδας αναφοράς (\foreignlanguage{english}{group vs. reference}).
+  \item Χρήση της \foreignlanguage{english}{Wilcoxon} για εξαγωγή διαφορικά εκφραζόμενων γονιδίων.
+  \item Δημιουργία \foreignlanguage{english}{Volcano plot} με χρωματική ένδειξη για \foreignlanguage{english}{UP}, \foreignlanguage{english}{DOWN} και \foreignlanguage{english}{NS (not significant)} γονίδια.
+\end{itemize}
+
+\section*{5. Εξαγωγή Αποτελεσμάτων}
+Ο χρήστης μπορεί να:
+\begin{itemize}
+  \item Κατεβάσει \foreignlanguage{english}{preprocessed} δεδομένα σε \foreignlanguage{english}{.h5ad}.
+  \item Εξαγάγει πίνακες \foreignlanguage{english}{DEGs} σε \foreignlanguage{english}{CSV/XLSX}.
+  \item Κατεβάσει εικόνες \foreignlanguage{english}{UMAP}, \foreignlanguage{english}{Volcano}, \foreignlanguage{english}{Heatmap, Dotplot, Violin}.
+\end{itemize}
+
+Όλες οι ενέργειες και τα \foreignlanguage{english}{intermediate data} αποθηκεύονται σε \foreignlanguage{english}{\texttt{st.session\_state}}, εξασφαλίζοντας διατήρηση κατάστασης μεταξύ των \foreignlanguage{english}{tabs} και της αλληλεπίδρασης του χρήστη.

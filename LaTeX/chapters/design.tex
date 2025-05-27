@@ -1,0 +1,14 @@
+\chapter{Σχεδιασμός της Υλοποίησης}
+
+Η εφαρμογή οργανώνεται σε έξι βασικά \foreignlanguage{english}{tabs}, τα οποία αντιστοιχούν στα στάδια της ανάλυσης:
+
+\begin{itemize}
+  \item \textbf{Δεδομένα:} Ανέβασμα αρχείων τύπου \foreignlanguage{english}{`.h5ad`} και προεπισκόπηση μεταδεδομένων και γονιδίων.
+  \item \textbf{Προεπεξεργασία:} Φιλτράρισμα κυττάρων/γονιδίων, αφαίρερση \foreignlanguage{english}{MT-, ERCC} γονιδίων, κανονικοποίηση, \foreignlanguage{english}{log1p, HVG} επιλογή και \foreignlanguage{english}{scaling}.
+  \item \textbf{Ανάλυση:} \foreignlanguage{english}{PCA, clustering} με \foreignlanguage{english}{Leiden, UMAP (2D/3D)}, και επιλογή χρήσης ή μη \foreignlanguage{english}{Harmony}.
+  \item \textbf{Γονιδιακή Ανάλυση:} Ανάληση \foreignlanguage{english}{marker genes} και \foreignlanguage{english}{DEG (Differential Expression)} με διάφορες οπτικοποιήσεις.
+  \item \textbf{Εξαγωγή:} Κατεβάσματα \foreignlanguage{english}{preprocessed} αρχείων, \foreignlanguage{english}{DEGs} σε \foreignlanguage{english}{CSV/XLSX}, \foreignlanguage{english}{Volcano plots, Heatmap, Dotplot, Violin} και \foreignlanguage{english}{UMAP} εικόνες.
+  \item \textbf{Ομάδα:} Παρουσίαση μελών ομάδας και των ρόλων τους.
+\end{itemize}
+
+Η εφαρμογή βασίζεται στο \foreignlanguage{english}{Streamlit} και αξιοποιεί \foreignlanguage{english}{`session state`} για μεταφορά δεδομένων μεταξύ των \foreignlanguage{english}{tabs}, ενώ κάθε βήμα ελέγχεται με παραμετρικά \foreignlanguage{english}{sliders} και επιλογές που ενημερώνουν δυναμικά την επόμενη ενέργεια.
